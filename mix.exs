@@ -38,7 +38,8 @@ defmodule CxLeaderboard.MixProject do
     [
       {:dialyxir, "~> 0.5", only: :dev, runtime: false},
       {:benchee, "~> 0.12", only: :dev, runtime: false},
-      {:ex_doc, "~> 0.18", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.18", only: :dev, runtime: false},
+      {:redix, ">= 0.0.0"}
     ]
   end
 end
