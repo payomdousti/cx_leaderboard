@@ -1,8 +1,9 @@
-defmodule CxLeaderboard.RedisStore do
+defmodule RedisStore do
   @moduledoc """
-  Use this storage engine to get efficient leaderboards powered by Redis. Supports
+  Use this storage engine to get efficient leaderboards powered by ets. Supports
   client/server mode via `CxLeaderboard.Leaderboard.start_link/1` and
-  `CxLeaderboard.Leaderboard.async_populate/2`.
+  `CxLeaderboard.Leaderboard.async_populate/2`. This is the default storage
+  engine.
   """
 
   @behaviour CxLeaderboard.Storage
@@ -15,7 +16,7 @@ defmodule CxLeaderboard.RedisStore do
 
     case Redix.start_link() do
       {:ok, _} -> {:ok, name}
-      {:error, reason} -> reason
+      error -> error
     end
   end
 
