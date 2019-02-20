@@ -11,6 +11,5 @@ defmodule CxLeaderboard.Application do
     children = [
       {Redix, name: :redix}
     ]
-
   end
 end
