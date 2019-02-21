@@ -22,9 +22,9 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def clear(name) do
-    with :ok <- GenServer.stop(name),
-         {:ok, _} <- GenServer.start_link(Writer, name, name: name) do
-      {:ok, name}
+    case Redix.command(:redix, ["DEL", name]) do
+      {:ok, _} -> {:ok, name}
+      error -> error
     end
   end
 
