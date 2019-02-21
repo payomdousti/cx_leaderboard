@@ -76,19 +76,12 @@ defmodule CxLeaderboard.RedisStore do
   ## Readers
 
   @doc false
-  defdelegate get(name, id), to: Ets
+  def get(name, id) do
+    name
+  end
 
   @doc false
-  defdelegate get(name, id, range), to: Ets
-
-  @doc false
-  defdelegate top(name), to: Ets
-
-  @doc false
-  defdelegate bottom(name), to: Ets
-
-  @doc false
-  defdelegate count(name), to: Ets
+  def get(name, id, range) do
     name
   end
 
