@@ -39,8 +39,12 @@ defmodule CxLeaderboard.RedisStore do
   end
 
   @doc false
-  def add(name, entry, indexer) do
-    process_multi_call(name, {:add, entry, indexer})
+  def add(name, entry, indexer \\ %{}) do
+    {{score, id}, payload} = entry
+    case Redix.command(:redix, ["ZADD", name, score, id]) do
+      {:ok, _} -> {:ok, name}
+      error -> error
+    end
   end
 
   @doc false
