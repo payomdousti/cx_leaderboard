@@ -61,7 +61,7 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def update(name, entry, indexer \\ %{}) do
-    process_multi_call(name, {:update, entry, indexer})
+    add_or_update(name, entry, indexer)
   end
 
   @doc false
