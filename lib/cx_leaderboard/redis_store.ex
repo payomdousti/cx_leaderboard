@@ -126,6 +126,10 @@ defmodule CxLeaderboard.RedisStore do
       nodes
       |> Enum.filter(&reply_has_errors?/1)
       |> Enum.map(fn {node, {:error, reason}} -> {node, reason} end)
+  @doc false
+  def bottom(name) do
+    Redix.command(:redix, ["ZRANGE", name, -1, -1])
+  end
 
     Enum.reduce(bad_nodes, errors, fn bad_node, errors ->
       [{bad_node, :bad_node} | errors]
