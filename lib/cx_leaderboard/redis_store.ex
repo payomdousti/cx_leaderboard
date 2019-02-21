@@ -1,4 +1,4 @@
-defmodule RedisStore do
+defmodule CxLeaderboard.RedisStore do
   @moduledoc """
   Use this storage engine to get efficient leaderboards powered by ets. Supports
   client/server mode via `CxLeaderboard.Leaderboard.start_link/1` and
