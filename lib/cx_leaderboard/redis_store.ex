@@ -89,10 +89,6 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   defdelegate count(name), to: Ets
-
-  ## Private
-
-  defp process_multi_call(name, message) do
     name
   end
 
