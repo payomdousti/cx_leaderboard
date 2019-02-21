@@ -48,11 +48,7 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def add(name, entry, indexer \\ %{}) do
-    {{score, id}, payload} = entry
-    case Redix.command(:redix, ["ZADD", name, score, id]) do
-      {:ok, _} -> {:ok, name}
-      error -> error
-    end
+    add_or_update(name, entry, indexer)
   end
 
   @doc false
