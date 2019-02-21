@@ -94,54 +94,46 @@ defmodule CxLeaderboard.RedisStore do
 
   defp process_multi_call(name, message) do
     name
-    |> GenServer.multi_call(message)
-    |> format_multi_call_reply(name)
   end
 
-  defp format_multi_call_reply(replies = {nodes, bad_nodes}, name) do
-    errors = collect_errors(replies)
-    node_count = Enum.count(nodes) + Enum.count(bad_nodes)
-
-    case {node_count, errors} do
-      # no errors anywhere
-      {_, []} ->
-        {:ok, name}
-
-      # only one node and one error, collapse to a simple error
-      {1, [{_, reason}]} ->
-        {:error, reason}
-
-      # only one node but multiple errors, return all reasons in a list
-      {1, errors} ->
-        {:error, Enum.map(errors, fn {_, reason} -> reason end)}
-
-      # multiple nodes and errors, return node-error pairs
-      {_, errors} ->
-        {:error, errors}
-    end
   @doc false
   def top(name) do
     Redix.command(:redix, ["ZRANGE", name, 0, 0])
   end
 
-  defp collect_errors({nodes, bad_nodes}) do
-    errors =
-      nodes
-      |> Enum.filter(&reply_has_errors?/1)
-      |> Enum.map(fn {node, {:error, reason}} -> {node, reason} end)
   @doc false
   def bottom(name) do
     Redix.command(:redix, ["ZRANGE", name, -1, -1])
   end
 
-    Enum.reduce(bad_nodes, errors, fn bad_node, errors ->
-      [{bad_node, :bad_node} | errors]
-    end)
   @doc false
   def count(name) do
     Redix.command(:redix, ["ZCOUNT", name, "-inf", "+inf"])
   end
 
-  defp reply_has_errors?({_, {:error, _}}), do: true
-  defp reply_has_errors?(_), do: false
+  #  @doc false
+  #  def start_link(lb = %{state: name}) do
+  #    GenServer.start_link(Writer, {name, lb}, name: name)
+  #  end
+
+  #  @doc false
+  #  def get_lb(name) do
+  #    GenServer.call(name, :get_lb)
+  #  end
+
+
+
+#  defp collect_errors({nodes, bad_nodes}) do
+#    errors =
+#      nodes
+#      |> Enum.filter(&reply_has_errors?/1)
+#      |> Enum.map(fn {node, {:error, reason}} -> {node, reason} end)
+#
+#    Enum.reduce(bad_nodes, errors, fn bad_node, errors ->
+#      [{bad_node, :bad_node} | errors]
+#    end)
+#  end
+#
+#  defp reply_has_errors?({_, {:error, _}}), do: true
+#  defp reply_has_errors?(_), do: false
 end
