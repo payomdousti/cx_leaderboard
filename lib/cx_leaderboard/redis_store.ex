@@ -33,9 +33,9 @@ defmodule CxLeaderboard.RedisStore do
   end
 
   @doc false
-  def async_populate(name, data, indexer) do
-    :abcast = GenServer.abcast(name, {:populate, data, indexer})
-    {:ok, name}
+  def async_populate(name, data, indexer \\ %{}) do
+#    :abcast = GenServer.abcast(name, {:populate, data, indexer})
+#    {:ok, name}
   end
 
   @doc false
@@ -56,12 +56,12 @@ defmodule CxLeaderboard.RedisStore do
   end
 
   @doc false
-  def update(name, entry, indexer) do
+  def update(name, entry, indexer \\ %{}) do
     process_multi_call(name, {:update, entry, indexer})
   end
 
   @doc false
-  def add_or_update(name, entry, indexer) do
+  def add_or_update(name, entry, indexer \\ %{}) do
     process_multi_call(name, {:add_or_update, entry, indexer})
   end
 
