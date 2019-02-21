@@ -30,6 +30,11 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def populate(name, data, indexer \\ %{}) do
+    entries = Enum.flat_map(data, fn {{score, id}, payload} -> [score, id] end)
+    case Redix.command(:redix, ["ZADD", name | entries]) do
+      {:ok, _} -> {:ok, name}
+      error -> error
+    end
   end
 
   @doc false
