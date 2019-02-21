@@ -66,17 +66,11 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def add_or_update(name, entry, indexer \\ %{}) do
-    process_multi_call(name, {:add_or_update, entry, indexer})
-  end
-
-  @doc false
-  def start_link(lb = %{state: name}) do
-    GenServer.start_link(Writer, {name, lb}, name: name)
-  end
-
-  @doc false
-  def get_lb(name) do
-    GenServer.call(name, :get_lb)
+    {{score, id}, payload} = entry
+    case Redix.command(:redix, ["ZADD", name, score, id]) do
+      {:ok, _} -> {:ok, name}
+      error -> error
+    end
   end
 
   ## Readers
