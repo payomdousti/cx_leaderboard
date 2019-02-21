@@ -119,6 +119,9 @@ defmodule CxLeaderboard.RedisStore do
       {_, errors} ->
         {:error, errors}
     end
+  @doc false
+  def top(name) do
+    Redix.command(:redix, ["ZRANGE", name, 0, 0])
   end
 
   defp collect_errors({nodes, bad_nodes}) do
