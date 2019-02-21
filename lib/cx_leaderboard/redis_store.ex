@@ -29,8 +29,7 @@ defmodule CxLeaderboard.RedisStore do
   end
 
   @doc false
-  def populate(name, data, indexer) do
-    process_multi_call(name, {:populate, data, indexer})
+  def populate(name, data, indexer \\ %{}) do
   end
 
   @doc false
