@@ -134,6 +134,9 @@ defmodule CxLeaderboard.RedisStore do
     Enum.reduce(bad_nodes, errors, fn bad_node, errors ->
       [{bad_node, :bad_node} | errors]
     end)
+  @doc false
+  def count(name) do
+    Redix.command(:redix, ["ZCOUNT", name, "-inf", "+inf"])
   end
 
   defp reply_has_errors?({_, {:error, _}}), do: true
