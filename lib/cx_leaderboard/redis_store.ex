@@ -39,8 +39,11 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def async_populate(name, data, indexer \\ %{}) do
-#    :abcast = GenServer.abcast(name, {:populate, data, indexer})
-#    {:ok, name}
+    commands = Enum.map(data, fn {{score, id}, payload} -> ["ZADD", name, score, id] end)
+    case Redix.pipeline(:redix, commands) do
+      {:ok, _} -> {:ok, name}
+      error -> error
+    end
   end
 
   @doc false
