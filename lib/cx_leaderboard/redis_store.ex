@@ -48,8 +48,11 @@ defmodule CxLeaderboard.RedisStore do
   end
 
   @doc false
-  def remove(name, id, indexer) do
-    process_multi_call(name, {:remove, id, indexer})
+  def remove(name, id, indexer \\ %{}) do
+    case Redix.command(:redix, ["ZREM", name, id]) do
+      {:ok, _} -> {:ok, name}
+      error -> error
+    end
   end
 
   @doc false
