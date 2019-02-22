@@ -13,11 +13,7 @@ defmodule CxLeaderboard.RedisStore do
   @doc false
   def create(kwargs) do
     name = Keyword.get(kwargs, :name)
-
-    case Redix.start_link() do
-      {:ok, _} -> {:ok, name}
-      error -> error
-    end
+    {:ok, name}
   end
 
   @doc false
