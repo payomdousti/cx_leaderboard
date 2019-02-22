@@ -127,7 +127,10 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def count(name) do
-    Redix.command(:redix, ["ZCOUNT", name, "-inf", "+inf"])
+    case Redix.command(:redix, ["ZCOUNT", name, "-inf", "+inf"]) do
+      {:ok, count} -> count
+      error -> error
+    end
   end
 
   #  @doc false
