@@ -87,7 +87,7 @@ defmodule CxLeaderboard.RedisStore do
       fn -> {0, 10} end,
 
       fn {start_idx, end_idx} ->
-        { status, data }= Redix.command(:redix, ["ZRANGE", :lb, start_idx, end_idx])
+        { status, data }= Redix.command(:redix, ["ZRANGE", name, start_idx, end_idx])
         if status == :ok && !Enum.empty?(data) do
           {data, {start_idx + end_idx + 1, end_idx + end_idx + 1}}
         else
@@ -107,7 +107,7 @@ defmodule CxLeaderboard.RedisStore do
       fn -> {0, 10} end,
 
       fn {start_idx, end_idx} ->
-        { status, data }= Redix.command(:redix, ["ZREVRANGE", :lb, start_idx, end_idx])
+        { status, data }= Redix.command(:redix, ["ZREVRANGE", name, start_idx, end_idx])
         if status == :ok && !Enum.empty?(data) do
           {data, {start_idx + end_idx + 1, end_idx + end_idx + 1}}
         else
