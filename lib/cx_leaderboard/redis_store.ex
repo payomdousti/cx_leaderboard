@@ -82,7 +82,21 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def get(name, id, range) do
-    name
+    {:ok, rank} = Redix.command(:redix, ["ZRANK", name, id])
+
+    if rank != nil do
+      {:ok, entries} =
+        Redix.command(:redix, [
+          "ZRANGE",
+          name,
+          rank,
+          rank + range,
+          "WITHSCORES"
+        ])
+
+      entries
+      |> map_entries_to_records()
+    end
   end
 
   @doc false
