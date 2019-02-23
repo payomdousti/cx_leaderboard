@@ -153,10 +153,6 @@ defmodule CxLeaderboard.RedisStore do
     end
   end
 
-  #  @doc false
-  #  def start_link(lb = %{state: name}) do
-  #    GenServer.start_link(Writer, {name, lb}, name: name)
-  #  end
   defp map_entries_to_records(entries, index \\ 0) do
     entries
     |> Enum.chunk_every(2)
@@ -166,24 +162,5 @@ defmodule CxLeaderboard.RedisStore do
     end)
   end
 
-  #  @doc false
-  #  def get_lb(name) do
-  #    GenServer.call(name, :get_lb)
-  #  end
 
-
-
-#  defp collect_errors({nodes, bad_nodes}) do
-#    errors =
-#      nodes
-#      |> Enum.filter(&reply_has_errors?/1)
-#      |> Enum.map(fn {node, {:error, reason}} -> {node, reason} end)
-#
-#    Enum.reduce(bad_nodes, errors, fn bad_node, errors ->
-#      [{bad_node, :bad_node} | errors]
-#    end)
-#  end
-#
-#  defp reply_has_errors?({_, {:error, _}}), do: true
-#  defp reply_has_errors?(_), do: false
 end
