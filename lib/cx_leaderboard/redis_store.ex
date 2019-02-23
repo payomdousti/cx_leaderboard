@@ -113,7 +113,7 @@ defmodule CxLeaderboard.RedisStore do
             "WITHSCORES"
           ])
 
-        if status == :ok && !Enum.empty?(data) do
+        if status == :ok && !Enum.empty?(entries) do
           {entries, {start_idx + end_idx + 1, end_idx + end_idx + 1}}
         else
           {:halt, {start_idx, end_idx}}
@@ -140,7 +140,7 @@ defmodule CxLeaderboard.RedisStore do
             "WITHSCORES"
           ])
 
-        if status == :ok && !Enum.empty?(entry) do
+        if status == :ok && !Enum.empty?(entries) do
           {entries, {start_idx + end_idx + 1, end_idx + end_idx + 1}}
         else
           {:halt, {start_idx, end_idx}}
