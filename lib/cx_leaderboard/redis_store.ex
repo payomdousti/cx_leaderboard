@@ -103,16 +103,22 @@ defmodule CxLeaderboard.RedisStore do
   def top(name) do
     Stream.resource(
       fn -> {0, 10} end,
-
       fn {start_idx, end_idx} ->
-        { status, data }= Redix.command(:redix, ["ZRANGE", name, start_idx, end_idx])
+        {status, data} =
+          Redix.command(:redix, [
+            "ZRANGE",
+            name,
+            start_idx,
+            end_idx,
+            "WITHSCORES"
+          ])
+
         if status == :ok && !Enum.empty?(data) do
           {data, {start_idx + end_idx + 1, end_idx + end_idx + 1}}
         else
           {:halt, {start_idx, end_idx}}
         end
       end,
-
       fn {start_idx, end_idx} ->
         end_idx
       end
