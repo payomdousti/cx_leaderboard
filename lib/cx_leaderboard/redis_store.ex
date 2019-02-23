@@ -77,7 +77,7 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def get(name, id) do
-    name
+    get(name, id, 0)
   end
 
   @doc false
