@@ -101,32 +101,13 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def top(name) do
-    Stream.resource(
-      fn -> {0, 10} end,
-      fn {start_idx, end_idx} ->
-        {status, entries} =
-          Redix.command(:redix, [
-            "ZRANGE",
-            name,
-            start_idx,
-            end_idx,
-            "WITHSCORES"
-          ])
-
-        if status == :ok && !Enum.empty?(entries) do
-          {entries, {start_idx + end_idx + 1, end_idx + end_idx + 1}}
-        else
-          {:halt, {start_idx, end_idx}}
-        end
-      end,
-      fn {start_idx, end_idx} ->
-        end_idx
-      end
-    )
+    redis_stream_generator("ZRANGE", name, {start_idx, end_idx})
   end
 
   @doc false
   def bottom(name) do
+    redis_stream_generator("ZREVRANGE", name, {start_idx, end_idx})
+  end
 
   @doc false
   def count(name) do
@@ -136,13 +117,13 @@ defmodule CxLeaderboard.RedisStore do
     end
   end
 
+  defp redis_stream_generator(command, name, {start_idx, end_idx}) do
     Stream.resource(
       fn -> {0, 10} end,
-
       fn {start_idx, end_idx} ->
         {status, entries} =
-          Redix.command(:redix, [
-            "ZREVRANGE",
+          redis_command([
+            command,
             name,
             start_idx,
             end_idx,
