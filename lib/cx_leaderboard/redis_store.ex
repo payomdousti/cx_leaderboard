@@ -131,7 +131,8 @@ defmodule CxLeaderboard.RedisStore do
           ])
 
         if status == :ok && !Enum.empty?(entries) do
-          {entries, {start_idx + end_idx + 1, end_idx + end_idx + 1}}
+          records = map_entries_to_records(entries, start_idx)
+          {records, {start_idx + end_idx + 1, end_idx + end_idx + 1}}
         else
           {:halt, {start_idx, end_idx}}
         end
