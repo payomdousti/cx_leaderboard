@@ -27,6 +27,7 @@ defmodule CxLeaderboard.RedisStore do
   @doc false
   def populate(name, data, indexer \\ %{}) do
     entries = Enum.flat_map(data, fn {{score, id}, payload} -> [score, id] end)
+
     case Redix.command(:redix, ["ZADD", name | entries]) do
       {:ok, _} -> {:ok, name}
       error -> error
@@ -35,7 +36,9 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def async_populate(name, data, indexer \\ %{}) do
-    commands = Enum.map(data, fn {{score, id}, payload} -> ["ZADD", name, score, id] end)
+    commands =
+      Enum.map(data, fn {{score, id}, payload} -> ["ZADD", name, score, id] end)
+
     case Redix.pipeline(:redix, commands) do
       {:ok, _} -> {:ok, name}
       error -> error
@@ -63,6 +66,7 @@ defmodule CxLeaderboard.RedisStore do
   @doc false
   def add_or_update(name, entry, indexer \\ %{}) do
     {{score, id}, payload} = entry
+
     case Redix.command(:redix, ["ZADD", name, score, id]) do
       {:ok, _} -> {:ok, name}
       error -> error
