@@ -104,7 +104,7 @@ defmodule CxLeaderboard.RedisStore do
     Stream.resource(
       fn -> {0, 10} end,
       fn {start_idx, end_idx} ->
-        {status, data} =
+        {:ok, entries} =
           Redix.command(:redix, [
             "ZRANGE",
             name,
@@ -114,7 +114,7 @@ defmodule CxLeaderboard.RedisStore do
           ])
 
         if status == :ok && !Enum.empty?(data) do
-          {data, {start_idx + end_idx + 1, end_idx + end_idx + 1}}
+          {entries, {start_idx + end_idx + 1, end_idx + end_idx + 1}}
         else
           {:halt, {start_idx, end_idx}}
         end
