@@ -127,6 +127,15 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def bottom(name) do
+
+  @doc false
+  def count(name) do
+    case redis_command(["ZCARD", name]) do
+      {:ok, count} -> count
+      error -> error
+    end
+  end
+
     Stream.resource(
       fn -> {0, 10} end,
 
@@ -146,19 +155,10 @@ defmodule CxLeaderboard.RedisStore do
           {:halt, {start_idx, end_idx}}
         end
       end,
-
       fn {start_idx, end_idx} ->
         end_idx
       end
     )
-  end
-
-  @doc false
-  def count(name) do
-    case Redix.command(:redix, ["ZCARD", name]) do
-      {:ok, count} -> count
-      error -> error
-    end
   end
 
   defp map_entries_to_records(entries, index \\ 0) do
