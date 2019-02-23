@@ -104,7 +104,7 @@ defmodule CxLeaderboard.RedisStore do
     Stream.resource(
       fn -> {0, 10} end,
       fn {start_idx, end_idx} ->
-        {:ok, entries} =
+        {status, entries} =
           Redix.command(:redix, [
             "ZRANGE",
             name,
