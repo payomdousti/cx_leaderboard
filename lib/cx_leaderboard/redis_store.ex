@@ -18,7 +18,7 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def clear(name) do
-    case Redix.command(:redix, ["DEL", name]) do
+    case redis_command(["DEL", name]) do
       {:ok, _} -> {:ok, name}
       error -> error
     end
@@ -28,7 +28,7 @@ defmodule CxLeaderboard.RedisStore do
   def populate(name, data, indexer \\ %{}) do
     entries = Enum.flat_map(data, fn {{score, id}, payload} -> [score, id] end)
 
-    case Redix.command(:redix, ["ZADD", name | entries]) do
+    case redis_command(["ZADD", name | entries]) do
       {:ok, _} -> {:ok, name}
       error -> error
     end
@@ -39,7 +39,7 @@ defmodule CxLeaderboard.RedisStore do
     commands =
       Enum.map(data, fn {{score, id}, payload} -> ["ZADD", name, score, id] end)
 
-    case Redix.pipeline(:redix, commands) do
+    case redis_pipeline(commands) do
       {:ok, _} -> {:ok, name}
       error -> error
     end
@@ -52,7 +52,7 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def remove(name, id, indexer \\ %{}) do
-    case Redix.command(:redix, ["ZREM", name, id]) do
+    case redis_command(["ZREM", name, id]) do
       {:ok, _} -> {:ok, name}
       error -> error
     end
@@ -67,7 +67,7 @@ defmodule CxLeaderboard.RedisStore do
   def add_or_update(name, entry, indexer \\ %{}) do
     {{score, id}, payload} = entry
 
-    case Redix.command(:redix, ["ZADD", name, score, id]) do
+    case redis_command(["ZADD", name, score, id]) do
       {:ok, _} -> {:ok, name}
       error -> error
     end
@@ -82,11 +82,11 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def get(name, id, range) do
-    {:ok, rank} = Redix.command(:redix, ["ZRANK", name, id])
+    {:ok, rank} = redis_command(["ZRANK", name, id])
 
     if rank != nil do
       {:ok, entries} =
-        Redix.command(:redix, [
+        redis_command([
           "ZRANGE",
           name,
           rank,
@@ -170,5 +170,11 @@ defmodule CxLeaderboard.RedisStore do
     end)
   end
 
+  defp redis_command(command) do
+    Redix.command(:redix, command)
+  end
 
+  defp redis_pipeline(commands) do
+    Redix.pipeline(:redix, commands)
+  end
 end
