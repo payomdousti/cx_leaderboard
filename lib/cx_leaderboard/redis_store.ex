@@ -74,7 +74,7 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def get(name, id) do
-    get(name, id, 0)
+    get(name, id, 0..0)
   end
 
   @doc false
@@ -86,8 +86,8 @@ defmodule CxLeaderboard.RedisStore do
         redis_command([
           "ZRANGE",
           name,
-          rank,
-          rank + range,
+          rank + Enum.min(range),
+          rank + Enum.max(range),
           "WITHSCORES"
         ])
 
