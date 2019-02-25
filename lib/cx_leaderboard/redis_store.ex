@@ -98,12 +98,12 @@ defmodule CxLeaderboard.RedisStore do
 
   @doc false
   def top(name) do
-    redis_stream_generator("ZRANGE", name, {start_idx, end_idx})
+    redis_stream_generator("ZRANGE", name)
   end
 
   @doc false
   def bottom(name) do
-    redis_stream_generator("ZREVRANGE", name, {start_idx, end_idx})
+    redis_stream_generator("ZREVRANGE", name)
   end
 
   @doc false
@@ -114,7 +114,7 @@ defmodule CxLeaderboard.RedisStore do
     end
   end
 
-  defp redis_stream_generator(command, name, {start_idx, end_idx}) do
+  defp redis_stream_generator(command, name) do
     Stream.resource(
       fn -> {0, 10} end,
       fn {start_idx, end_idx} ->
