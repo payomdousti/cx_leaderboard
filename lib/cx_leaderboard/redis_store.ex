@@ -145,7 +145,7 @@ defmodule CxLeaderboard.RedisStore do
     |> Enum.chunk_every(2)
     |> Enum.with_index(index)
     |> Enum.map(fn {[entry_id, entry_score], index} ->
-      {entry_score, String.to_atom(entry_id), {index, {index, nil}}}
+      {entry_score, String.to_atom(entry_id), {index, {index + 1, nil}}}
     end)
   end
 
