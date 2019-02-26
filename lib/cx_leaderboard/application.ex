@@ -12,7 +12,7 @@ defmodule CxLeaderboard.Application do
       {Redix, name: :redix}
     ]
 
-    opts = [strategy: :one_for_one, name: Cryptoapp.Supervisor]
+    opts = [strategy: :one_for_one, name: CxLeaderboard.Supervisor]
     result = Supervisor.start_link(children, opts)
   end
 end
