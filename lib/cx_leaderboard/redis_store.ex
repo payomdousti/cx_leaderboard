@@ -5,6 +5,7 @@ defmodule CxLeaderboard.RedisStore do
 
   @behaviour CxLeaderboard.Storage
 
+  @redis_stream_buffer_size 10
   ## Writers
 
   @doc false
@@ -116,7 +117,7 @@ defmodule CxLeaderboard.RedisStore do
 
   defp redis_stream_generator(command, name) do
     Stream.resource(
-      fn -> {0, 10} end,
+      fn -> {0, @redis_stream_buffer_size} end,
       fn {start_idx, end_idx} ->
         {status, entries} =
           redis_command([
