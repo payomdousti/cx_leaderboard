@@ -23,8 +23,8 @@ defmodule CxLeaderboard.RedisStore do
   end
 
   @doc false
-  def populate(name, data, indexer \\ %{}) do
-    entries = Enum.flat_map(data, fn {{score, id}, payload} -> [score, id] end)
+  def populate(name, data, _ \\ %{}) do
+    entries = Enum.flat_map(data, fn {{score, id}, _} -> [score, id] end)
 
     case redis_command(["ZADD", name | entries]) do
       {:ok, _} -> {:ok, name}
@@ -33,9 +33,9 @@ defmodule CxLeaderboard.RedisStore do
   end
 
   @doc false
-  def async_populate(name, data, indexer \\ %{}) do
+  def async_populate(name, data, _ \\ %{}) do
     commands =
-      Enum.map(data, fn {{score, id}, payload} -> ["ZADD", name, score, id] end)
+      Enum.map(data, fn {{score, id}, _} -> ["ZADD", name, score, id] end)
 
     case redis_pipeline(commands) do
       {:ok, _} -> {:ok, name}
@@ -49,7 +49,7 @@ defmodule CxLeaderboard.RedisStore do
   end
 
   @doc false
-  def remove(name, id, indexer \\ %{}) do
+  def remove(name, id, _ \\ %{}) do
     case redis_command(["ZREM", name, id]) do
       {:ok, _} -> {:ok, name}
       error -> error
@@ -62,8 +62,8 @@ defmodule CxLeaderboard.RedisStore do
   end
 
   @doc false
-  def add_or_update(name, entry, indexer \\ %{}) do
-    {{score, id}, payload} = entry
+  def add_or_update(name, entry, _ \\ %{}) do
+    {{score, id}, _} = entry
 
     case redis_command(["ZADD", name, score, id]) do
       {:ok, _} -> {:ok, name}
@@ -137,7 +137,7 @@ defmodule CxLeaderboard.RedisStore do
           {:halt, {start_idx, end_idx}}
         end
       end,
-      fn {start_idx, end_idx} ->
+      fn {_, end_idx} ->
         end_idx
       end
     )
