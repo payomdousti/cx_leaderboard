@@ -94,6 +94,8 @@ defmodule CxLeaderboard.RedisStore do
 
       entries
       |> map_entries_to_records()
+    else
+      []
     end
   end
 
