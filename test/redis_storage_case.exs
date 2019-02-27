@@ -272,33 +272,6 @@ defmodule CxLeaderboard.RedisStorageCase do
 
         assert [] == records
       end
-
-#      test "supports custom indexer", %{board: board} do
-#        custom_indexer = %Indexer{
-#          on_rank: &Stats.sequential_rank_less_than_percentile/1,
-#          on_entry: fn {i, _, _, _} -> i * 2 end
-#        }
-#
-#        board = Map.put(board, :indexer, custom_indexer)
-#
-#        records =
-#          board
-#          |> Leaderboard.populate!([
-#            {-40, :id1},
-#            {-30, :id2},
-#            {-20, :id3},
-#            {-10, :id4}
-#          ])
-#          |> Leaderboard.top()
-#          |> Enum.to_list()
-#
-#        assert [
-#                 {{-40, :id1}, :id1, {0, {1, nil}}},
-#                 {{-30, :id2}, :id2, {2, {2, nil}}},
-#                 {{-20, :id3}, :id3, {4, {3, nil}}},
-#                 {{-10, :id4}, :id4, {6, {4, nil}}}
-#               ] == records
-#      end
     end
   end
 end
