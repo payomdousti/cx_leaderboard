@@ -181,7 +181,7 @@ defmodule CxLeaderboard.RedisStorageCase do
           board
           |> Leaderboard.populate!([{-20, :id1}, {-30, :id2}])
 
-        assert {{-20, :id1}, :id1, {1, {2, nil}}} ==
+        assert [{{-20, :id1}, :id1, {1, {2, nil}}}] ==
                  Leaderboard.get(board, :id1)
       end
 
