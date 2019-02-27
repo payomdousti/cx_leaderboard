@@ -147,13 +147,16 @@ defmodule CxLeaderboard.RedisStore do
     entries
     |> Enum.chunk_every(2)
     |> Enum.with_index(index)
-    |> Enum.map(fn {[entry_id, entry_score], index} ->
-      {
-        {String.to_integer(entry_score), String.to_atom(entry_id)},
-        String.to_atom(entry_id),
-        {index, {index + 1, nil}}
-      }
-    end)
+    |> Enum.map(&map_entry_to_record/1)
+  defp map_entry_to_record(entry) do
+    {[entry_id, entry_score], index} = entry
+
+    {
+      {String.to_integer(entry_score), String.to_atom(entry_id)},
+      String.to_atom(entry_id),
+      {index, {index + 1, nil}}
+    }
+  end
   end
 
   defp redis_command(command) do
