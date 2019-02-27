@@ -240,6 +240,7 @@ defmodule CxLeaderboard.RedisStorageCase do
                ] == records
       end
 
+      #      Left in as reference to spec for Leaderboard. We don't think this makes semantic sense, so changing assertion.
       test "retrieves a range of records in reverse order", %{board: board} do
         Leaderboard.clear(board)
         records =
