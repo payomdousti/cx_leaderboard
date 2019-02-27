@@ -50,27 +50,6 @@ defmodule CxLeaderboard.RedisStorageCase do
                ] == bottom
       end
 
-
-#      test "supports tiebreaks in each entry", %{board: board} do
-#        top =
-#          board
-#          |> Leaderboard.populate!([
-#            {-20, 2, :id1},
-#            {-20, 1, :id2},
-#            {-30, 3, :id3},
-#            {-30, 4, :id4}
-#          ])
-#          |> Leaderboard.top()
-#          |> Enum.take(4)
-#
-#        assert [
-#                 {{-30, 3, :id3}, :id3, {0, {1, nil}}},
-#                 {{-30, 4, :id4}, :id4, {1, {1, nil}}},
-#                 {{-20, 1, :id2}, :id2, {2, {3, nil}}},
-#                 {{-20, 2, :id1}, :id1, {3, {3, nil}}}
-#               ] == top
-#      end
-
       test "supports adding individual entries", %{board: board} do
         Leaderboard.clear(board)
         top =
