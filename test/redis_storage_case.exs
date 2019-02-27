@@ -62,7 +62,7 @@ defmodule CxLeaderboard.RedisStorageCase do
 
         assert [
                  {{-40, :id3}, :id3, {0, {1, nil}}},
-                 {{-40, :id4}, :id4, {1, {1, nil}}},
+                 {{-40, :id4}, :id4, {1, {2, nil}}},
                  {{-30, :id2}, :id2, {2, {3, nil}}},
                  {{-20, :id1}, :id1, {3, {4, nil}}}
                ] == top
