@@ -87,8 +87,8 @@ defmodule CxLeaderboard.RedisStore do
         redis_command([
           "ZRANGE",
           name,
-          rank + Enum.min(range),
-          rank + Enum.max(range),
+          (rank + Enum.at(range, 0)) |> max(0),
+          (rank + Enum.at(range, -1)) |> max(0),
           "WITHSCORES"
         ])
 
