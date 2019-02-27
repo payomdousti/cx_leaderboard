@@ -93,7 +93,7 @@ defmodule CxLeaderboard.RedisStore do
         ])
 
       entries
-      |> map_entries_to_records()
+      |> map_entries_to_records(name)
     else
       []
     end
@@ -131,7 +131,7 @@ defmodule CxLeaderboard.RedisStore do
           ])
 
         if status == :ok && !Enum.empty?(entries) do
-          records = map_entries_to_records(entries, start_idx)
+          records = map_entries_to_records(entries, name, start_idx)
           {records, {start_idx + end_idx + 1, end_idx + end_idx + 1}}
         else
           {:halt, {start_idx, end_idx}}
@@ -143,11 +143,14 @@ defmodule CxLeaderboard.RedisStore do
     )
   end
 
-  defp map_entries_to_records(entries, index \\ 0) do
+  defp map_entries_to_records(entries, name, index \\ 0) do
     entries
     |> Enum.chunk_every(2)
     |> Enum.with_index(index)
     |> Enum.map(&map_entry_to_record/1)
+    |> Enum.map(&join_rank_on_record(&1, name))
+  end
+
   defp map_entry_to_record(entry) do
     {[entry_id, entry_score], index} = entry
 
@@ -157,6 +160,11 @@ defmodule CxLeaderboard.RedisStore do
       {index, {index + 1, nil}}
     }
   end
+
+  defp join_rank_on_record(entry, name) do
+    {{score, id}, payload, {_, {_, percentile}}} = entry
+    {:ok, rank} = redis_command(["ZRANK", name, id])
+    {{score, id}, payload, {rank, {rank + 1, percentile}}}
   end
 
   defp redis_command(command) do
