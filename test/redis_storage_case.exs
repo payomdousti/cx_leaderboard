@@ -253,12 +253,23 @@ defmodule CxLeaderboard.RedisStorageCase do
           ])
           |> Leaderboard.get(:id2, 2..-1)
 
-        assert [
-                 {{-10, :id4}, :id4, {3, {4, nil}}},
-                 {{-20, :id3}, :id3, {2, {3, nil}}},
-                 {{-30, :id2}, :id2, {1, {2, nil}}},
-                 {{-40, :id1}, :id1, {0, {1, nil}}}
-               ] == records
+        assert [] == records
+      end
+
+      test "retrieves a range of records in reverse order", %{board: board} do
+        Leaderboard.clear(board)
+
+        records =
+          board
+          |> Leaderboard.populate!([
+            {-40, :id1},
+            {-30, :id2},
+            {-20, :id3},
+            {-10, :id4}
+          ])
+          |> Leaderboard.get(:id2, 2..-1)
+
+        assert [] == records
       end
 
       test "retrieves an empty list if id is not found", %{board: board} do
