@@ -193,22 +193,6 @@ defmodule CxLeaderboard.RedisStorageCase do
                ] == top
       end
 
-#      test "anything can be a score", %{board: board} do
-#        top =
-#          board
-#          |> Leaderboard.populate!([
-#            {"a", :id1},
-#            {"b", :id2}
-#          ])
-#          |> Leaderboard.top()
-#          |> Enum.take(2)
-#
-#        assert [
-#                 {{"a", :id1}, :id1, {0, {1, nil}}},
-#                 {{"b", :id2}, :id2, {1, {2, nil}}}
-#               ] == top
-#      end
-
       test "retrieves records via get", %{board: board} do
         Leaderboard.clear(board)
         board =
