@@ -6,11 +6,11 @@ defmodule CxLeaderboard.MixProject do
       description: "Fast, customizable leaderboards database.",
       app: :cx_leaderboard,
       version: "0.1.0",
-      elixir: "~> 1.5",
+      elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       package: package(),
       deps: deps(),
-      source_url: "https://github.com/crossfield/cx_leaderboard",
+      source_url: "https://github.com/payomdousti/elixir_leaderboard",
       dialyzer: [flags: ["-Wunmatched_returns", :error_handling, :underspecs]],
       docs: [main: "README", extras: ["README.md"]]
     ]
@@ -27,8 +27,8 @@ defmodule CxLeaderboard.MixProject do
   defp package do
     %{
       licenses: ["Apache 2"],
-      maintainers: ["Max Chernyak"],
-      links: %{"GitHub" => "https://github.com/crossfield/cx_leaderboard"},
+      maintainers: ["Payom Dousti"],
+      links: %{"GitHub" => "https://github.com/payomdousti/elixir_leaderboard"},
       files:
         ~w(lib .formatter.exs CODE_OF_CONDUCT.md LICENSE mix.exs README.md)
     }
