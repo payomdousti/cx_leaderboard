@@ -224,22 +224,6 @@ defmodule ElixirLeaderboard.RedisStorageCase do
                ] == records
       end
 
-      #      Left in as reference to spec for Leaderboard. We don't think this makes semantic sense, so changing assertion.
-      test "retrieves a range of records in reverse order", %{board: board} do
-        Leaderboard.clear(board)
-        records =
-          board
-          |> Leaderboard.populate!([
-            {-40, :id1},
-            {-30, :id2},
-            {-20, :id3},
-            {-10, :id4}
-          ])
-          |> Leaderboard.get(:id2, 2..-1)
-
-        assert [] == records
-      end
-
       test "retrieves a range of records in reverse order", %{board: board} do
         Leaderboard.clear(board)
 
