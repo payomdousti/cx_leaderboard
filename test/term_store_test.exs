@@ -1,6 +1,6 @@
 defmodule TermStoreTest do
-  use CxLeaderboard.StorageCase
-  alias CxLeaderboard.{Leaderboard, TermStore}
+  use ElixirLeaderboard.StorageCase
+  alias ElixirLeaderboard.{Leaderboard, TermStore}
 
   setup do
     board = Leaderboard.create!(store: TermStore)

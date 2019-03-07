@@ -1,8 +1,8 @@
-defmodule CxLeaderboard.EtsStore.Writer do
+defmodule ElixirLeaderboard.EtsStore.Writer do
   @moduledoc false
 
   use GenServer
-  alias CxLeaderboard.EtsStore.Ets
+  alias ElixirLeaderboard.EtsStore.Ets
 
   def init({name, lb = %{data: data, indexer: indexer}}) do
     Ets.init(name)

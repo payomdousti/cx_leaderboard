@@ -1,13 +1,13 @@
-defmodule CxLeaderboard.EtsStore do
+defmodule ElixirLeaderboard.EtsStore do
   @moduledoc """
   Use this storage engine to get efficient leaderboards powered by ets. Supports
-  client/server mode via `CxLeaderboard.Leaderboard.start_link/1` and
-  `CxLeaderboard.Leaderboard.async_populate/2`. This is the default storage
+  client/server mode via `ElixirLeaderboard.Leaderboard.start_link/1` and
+  `ElixirLeaderboard.Leaderboard.async_populate/2`. This is the default storage
   engine.
   """
 
-  @behaviour CxLeaderboard.Storage
-  alias CxLeaderboard.EtsStore.{Ets, Writer}
+  @behaviour ElixirLeaderboard.Storage
+  alias ElixirLeaderboard.EtsStore.{Ets, Writer}
 
   ## Writers
 

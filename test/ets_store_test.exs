@@ -1,6 +1,6 @@
 defmodule EtsStoreTest do
-  use CxLeaderboard.StorageCase
-  alias CxLeaderboard.{Leaderboard, EtsStore}
+  use ElixirLeaderboard.StorageCase
+  alias ElixirLeaderboard.{Leaderboard, EtsStore}
 
   setup do
     board = Leaderboard.create!(name: :test_board, store: EtsStore)

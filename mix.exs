@@ -1,10 +1,10 @@
-defmodule CxLeaderboard.MixProject do
+defmodule ElixirLeaderboard.MixProject do
   use Mix.Project
 
   def project do
     [
       description: "Fast, customizable leaderboards database.",
-      app: :cx_leaderboard,
+      app: :elixir_leaderboard,
       version: "0.1.0",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
@@ -19,7 +19,7 @@ defmodule CxLeaderboard.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {CxLeaderboard.Application, []},
+      mod: {ElixirLeaderboard.Application, []},
       extra_applications: [:logger]
     ]
   end

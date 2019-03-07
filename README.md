@@ -1,4 +1,4 @@
-# CxLeaderboard
+# ElixirLeaderboard
 
 [![Travis](https://img.shields.io/travis/crossfield/cx_leaderboard.svg?style=flat-square)](https://travis-ci.org/crossfield/cx_leaderboard)
 [![Hex.pm](https://img.shields.io/hexpm/v/cx_leaderboard.svg?style=flat-square)](https://hex.pm/packages/cx_leaderboard)
@@ -6,7 +6,7 @@
 A featureful, fast leaderboard based on ets store. Can carry payloads, calculate custom stats, provide nearby entries around any entry, and do many other fun things.
 
 ```elixir
-alias CxLeaderboard.Leaderboard
+alias ElixirLeaderboard.Leaderboard
 
 board =
   Leaderboard.create!(name: :global_lb)
@@ -44,23 +44,23 @@ records =
 * Pluggable data stores: `EtsStore` for big boards, `TermStore` for dynamic mini boards
 * Atomic full repopulation in O(2n log n) time
 * Multi-node support
-* Extensibility for storage engines (`CxLeaderboard.Storage` behaviour)
+* Extensibility for storage engines (`ElixirLeaderboard.Storage` behaviour)
 
 ## Installation
 
-The package can be installed by adding `cx_leaderboard` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `elixir_leaderboard` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:cx_leaderboard, "~> 0.1.0"}
+    {:elixir_leaderboard, "~> 0.1.0"}
   ]
 end
 ```
 
 ## Documentation
 
-https://hexdocs.pm/cx_leaderboard/CxLeaderboard.Leaderboard.html
+https://hexdocs.pm/elixir_leaderboard/ElixirLeaderboard.Leaderboard.html
 
 ## Global Leaderboards
 
@@ -79,7 +79,7 @@ defmodule Foo.Application do
       # Postgres results) for leaderboard to auto-populate itself on startup.
       # It's best if this is implemented as a Stream to avoid consuming more
       # RAM than necessary.
-      worker(CxLeaderboard.Leaderboard, [:global, [data: Foo.MyData.load()]])
+      worker(ElixirLeaderboard.Leaderboard, [:global, [data: Foo.MyData.load()]])
     ]
 
     opts = [strategy: :one_for_one, name: Foo.Supervisor]
@@ -91,7 +91,7 @@ end
 Then you can interact with it anywhere in your app like this:
 
 ```elixir
-alias CxLeaderboard.Leaderboard
+alias ElixirLeaderboard.Leaderboard
 
 global_lb = Leaderboard.client_for(:global)
 global_lb
@@ -117,7 +117,7 @@ Leaderboard.get(board, :id3, -1..1)
 To use different ranking you can just create your own indexer. Here's an example of the above leaderboard only in this case we want sequential ranks.
 
 ```elixir
-alias CxLeaderboard.{Leaderboard, Indexer}
+alias ElixirLeaderboard.{Leaderboard, Indexer}
 
 my_indexer = Indexer.new(on_rank:
   &Indexer.Stats.sequential_rank_1_99_less_or_equal_percentile/1)
@@ -147,7 +147,7 @@ records =
 
 Notice how the resulting ranks are not offset like 1,1,3,4,4 but are sequential like 1,1,2,3,3.
 
-See docs for `CxLeaderboard.Indexer.Stats` for various pre-packaged functions you can plug into the indexer, or write your own.
+See docs for `ElixirLeaderboard.Indexer.Stats` for various pre-packaged functions you can plug into the indexer, or write your own.
 
 ## Mini-leaderboards
 
@@ -155,7 +155,7 @@ Sometimes all you need is to render a quick one-off leaderboard with just a few 
 
 ```elixir
 miniboard =
-  Leaderboard.create!(store: CxLeaderboard.TermStore)
+  Leaderboard.create!(store: ElixirLeaderboard.TermStore)
   |> Leaderboard.populate!(
     [
       {23, 1},

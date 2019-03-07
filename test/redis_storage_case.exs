@@ -1,6 +1,6 @@
-defmodule CxLeaderboard.RedisStorageCase do
+defmodule ElixirLeaderboard.RedisStorageCase do
   use ExUnit.CaseTemplate
-  alias CxLeaderboard.Leaderboard
+  alias ElixirLeaderboard.Leaderboard
 
   using do
     quote location: :keep do

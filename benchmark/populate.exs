@@ -3,10 +3,10 @@ samples =
     {_, id} -> {:rand.uniform(1_000_000), id + 1}
   end)
 
-alias CxLeaderboard.Leaderboard
+alias ElixirLeaderboard.Leaderboard
 
-ets_board = Leaderboard.create!(name: :benchmark, store: CxLeaderboard.EtsStore)
-term_board = Leaderboard.create!(store: CxLeaderboard.TermStore)
+ets_board = Leaderboard.create!(name: :benchmark, store: ElixirLeaderboard.EtsStore)
+term_board = Leaderboard.create!(store: ElixirLeaderboard.TermStore)
 one_mil = samples |> Enum.take(1_000_000)
 
 Benchee.run(%{

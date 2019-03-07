@@ -1,9 +1,9 @@
-defmodule CxLeaderboard.Storage do
+defmodule ElixirLeaderboard.Storage do
   @moduledoc """
   Use this behaviour to implement your own leaderboard storage engines.
   """
 
-  alias CxLeaderboard.{Leaderboard, Entry, Record, Indexer}
+  alias ElixirLeaderboard.{Leaderboard, Entry, Record, Indexer}
 
   @doc """
   Create a leaderboard in your storage (keyword arguments are determined by

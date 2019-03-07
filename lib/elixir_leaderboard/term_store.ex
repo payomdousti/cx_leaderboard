@@ -1,13 +1,13 @@
-defmodule CxLeaderboard.TermStore do
+defmodule ElixirLeaderboard.TermStore do
   @moduledoc """
   Use this storage engine to make small size one-off leaderboards that are
   stored entirely in a variable. Useful for leaderboards scoped to small groups
   of participants.
   """
 
-  @behaviour CxLeaderboard.Storage
+  @behaviour ElixirLeaderboard.Storage
 
-  alias CxLeaderboard.{Indexer, Entry}
+  alias ElixirLeaderboard.{Indexer, Entry}
 
   ## Writers
 

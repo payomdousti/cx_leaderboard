@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure your application as:
 #
-#     config :cx_leaderboard, key: :value
+#     config :elixir_leaderboard, key: :value
 #
 # and access this configuration in your application as:
 #
-#     Application.get_env(:cx_leaderboard, :key)
+#     Application.get_env(:elixir_leaderboard, :key)
 #
 # You can also configure a 3rd-party app:
 #

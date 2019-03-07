@@ -1,4 +1,4 @@
-defmodule CxLeaderboard.Leaderboard do
+defmodule ElixirLeaderboard.Leaderboard do
   @moduledoc """
 
   Leaderboard is a lightweight database designed to optimize storing and sorting
@@ -14,12 +14,12 @@ defmodule CxLeaderboard.Leaderboard do
     - Add/remove/update/upsert individual records in an existing leaderboard
     - Re-populate the leaderboard with asynchrony and atomicity
     - Build mini-leaderboards contained in simple elixir structs
-    - Add your own custom storage engine (`CxLeaderboard.Storage` behaviour)
+    - Add your own custom storage engine (`ElixirLeaderboard.Storage` behaviour)
 
   Here's a quick example. We use the negative score values trick to make higher
   score sort to the top naturally.
 
-      alias CxLeaderboard.Leaderboard
+      alias ElixirLeaderboard.Leaderboard
 
       my_lb = Leaderboard.create!(name: :main)
       my_lb =
@@ -77,13 +77,13 @@ defmodule CxLeaderboard.Leaderboard do
   By default the stats you get are index, rank, and percentile. However, passing
   a custom indexer into the `create/1` or `client_for/2` functions allows you to
   calculate your own stats. To learn more about indexer customization read the
-  module docs of `CxLeaderboard.Indexer`.
+  module docs of `ElixirLeaderboard.Indexer`.
   """
 
   @enforce_keys [:state, :store, :indexer]
   defstruct [:state, :store, :indexer, :data]
 
-  alias CxLeaderboard.{Leaderboard, Entry, Record, Indexer}
+  alias ElixirLeaderboard.{Leaderboard, Entry, Record, Indexer}
 
   @type t :: %__MODULE__{
           state: state(),
@@ -101,16 +101,16 @@ defmodule CxLeaderboard.Leaderboard do
   ## Options
 
     * `:store` - storage engine to use for the leaderboard. Supports
-      `CxLeaderboard.EtsStore` and `CxLeaderboard.TermStore`. Default:
-      `CxLeaderboard.EtsStore`.
+      `ElixirLeaderboard.EtsStore` and `ElixirLeaderboard.TermStore`. Default:
+      `ElixirLeaderboard.EtsStore`.
 
     * `:indexer` - indexer to use for stats calculation. The default indexer
       calculates rank with offsets (e.g. 1,1,3) and percentile based on same-or-
       lower scores, within 1-99 range. Learn more about making custom indexers
-      in `CxLeaderboard.Indexer` module doc.
+      in `ElixirLeaderboard.Indexer` module doc.
 
     * `:name` - sets the name identifying the leaderboard. Only needed when
-      using `CxLeaderboard.EtsStore`.
+      using `ElixirLeaderboard.EtsStore`.
 
   ## Examples
 
@@ -118,8 +118,8 @@ defmodule CxLeaderboard.Leaderboard do
       {:ok,
         %Leaderboard{
           state: :global,
-          store: CxLeaderboard.EtsStore,
-          indexer: %CxLeaderboard.Indexer{},
+          store: ElixirLeaderboard.EtsStore,
+          indexer: %ElixirLeaderboard.Indexer{},
           data: []
         }
       }
@@ -211,7 +211,7 @@ defmodule CxLeaderboard.Leaderboard do
 
   @doc """
   Populates a leaderboard with entries asynchronously. Only works with
-  `CxLeaderboard.EtsStore`. Invalid entries are silently skipped.
+  `ElixirLeaderboard.EtsStore`. Invalid entries are silently skipped.
 
   See Entry section of the module doc for information about entries.
 
@@ -508,7 +508,7 @@ defmodule CxLeaderboard.Leaderboard do
 
   @doc """
   If your chosen storage engine supports server/client operation
-  (`CxLeaderboard.EtsStore` does), then you could set `Leaderboard` as a worker
+  (`ElixirLeaderboard.EtsStore` does), then you could set `Leaderboard` as a worker
   in your application's children list. For each leaderboard you would just add a
   worker, passing it a name. Then in your applicaiton you can use `client_for/2`
   to get the reference to it that you can use to call all the functions in this
@@ -526,7 +526,7 @@ defmodule CxLeaderboard.Leaderboard do
           data_stream = Foo.LeaderboardData.stream()
 
           children = [
-            worker(CxLeaderboard.Leaderboard, [
+            worker(ElixirLeaderboard.Leaderboard, [
               name: :global,
               data: data_stream
             ])
@@ -538,7 +538,7 @@ defmodule CxLeaderboard.Leaderboard do
       end
 
       # Elsewhere in your application
-      alias CxLeaderboard.Leaderboard
+      alias ElixirLeaderboard.Leaderboard
 
       global_lb = Leaderboard.client_for(:global)
       global_lb
@@ -566,14 +566,14 @@ defmodule CxLeaderboard.Leaderboard do
   for more information on client/server mode of operation.
   """
   @spec client_for(atom(), module()) :: Leaderboard.t()
-  def client_for(name, store \\ CxLeaderboard.EtsStore) do
+  def client_for(name, store \\ ElixirLeaderboard.EtsStore) do
     store.get_lb(name)
   end
 
   ## Private
 
   defp parse_options(kwargs) do
-    store = Keyword.get(kwargs, :store, CxLeaderboard.EtsStore)
+    store = Keyword.get(kwargs, :store, ElixirLeaderboard.EtsStore)
     indexer = Keyword.get(kwargs, :indexer, %Indexer{})
 
     data =

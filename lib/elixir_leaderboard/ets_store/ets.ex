@@ -1,7 +1,7 @@
-defmodule CxLeaderboard.EtsStore.Ets do
+defmodule ElixirLeaderboard.EtsStore.Ets do
   @moduledoc false
 
-  alias CxLeaderboard.{Indexer, Entry}
+  alias ElixirLeaderboard.{Indexer, Entry}
 
   @meta_table_settings [
     :set,

@@ -1,4 +1,4 @@
-defmodule CxLeaderboard.Application do
+defmodule ElixirLeaderboard.Application do
   use Application
 
   require Logger
@@ -12,7 +12,7 @@ defmodule CxLeaderboard.Application do
       {Redix, name: :redix}
     ]
 
-    opts = [strategy: :one_for_one, name: CxLeaderboard.Supervisor]
+    opts = [strategy: :one_for_one, name: ElixirLeaderboard.Supervisor]
     result = Supervisor.start_link(children, opts)
   end
 end

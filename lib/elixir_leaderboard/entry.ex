@@ -1,4 +1,4 @@
-defmodule CxLeaderboard.Entry do
+defmodule ElixirLeaderboard.Entry do
   @moduledoc """
   Entry is the tuple-based structure that you send into the leaderboard.
   """

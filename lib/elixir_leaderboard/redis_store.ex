@@ -1,9 +1,9 @@
-defmodule CxLeaderboard.RedisStore do
+defmodule ElixirLeaderboard.RedisStore do
   @moduledoc """
   Use this storage engine to get efficient leaderboards powered by Redis.
   """
 
-  @behaviour CxLeaderboard.Storage
+  @behaviour ElixirLeaderboard.Storage
 
   @redis_stream_buffer_size 10
   ## Writers

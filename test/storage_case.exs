@@ -1,7 +1,7 @@
-defmodule CxLeaderboard.StorageCase do
+defmodule ElixirLeaderboard.StorageCase do
   use ExUnit.CaseTemplate
-  alias CxLeaderboard.{Leaderboard, Indexer}
-  alias CxLeaderboard.Indexer.Stats
+  alias ElixirLeaderboard.{Leaderboard, Indexer}
+  alias ElixirLeaderboard.Indexer.Stats
 
   using do
     quote location: :keep do

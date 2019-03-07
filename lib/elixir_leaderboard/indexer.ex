@@ -1,4 +1,4 @@
-defmodule CxLeaderboard.Indexer do
+defmodule ElixirLeaderboard.Indexer do
   @moduledoc """
   Indexer walks the entire leaderboard and calculates the needed stats, such as
   rank and percentile.
@@ -15,7 +15,7 @@ defmodule CxLeaderboard.Indexer do
   `on_rank`, since we don't want to unnecessarily slow down the indexer.
 
   This library comes with a bunch of pre-made `on_rank` functions for different
-  flavor of rank and percentile calculation. See `CxLeaderboard.Indexer.Stats`
+  flavor of rank and percentile calculation. See `ElixirLeaderboard.Indexer.Stats`
   documentation for what's available.
 
   ## The on_rank callback
@@ -74,8 +74,8 @@ defmodule CxLeaderboard.Indexer do
   based on whatever was provided by the `on_rank` function.
   """
 
-  alias CxLeaderboard.Indexer.Stats
-  alias CxLeaderboard.Entry
+  alias ElixirLeaderboard.Indexer.Stats
+  alias ElixirLeaderboard.Entry
 
   defstruct on_rank: &Stats.offset_rank_1_99_less_or_equal_percentile/1,
             on_entry: &Stats.global_index/1
@@ -98,7 +98,7 @@ defmodule CxLeaderboard.Indexer do
 
   @doc """
   Create a custom indexer by supplying 2 functions: `on_rank` and `on_entry`.
-  See `CxLeaderboard.Indexer.Stats` for available functions, or implement custom
+  See `ElixirLeaderboard.Indexer.Stats` for available functions, or implement custom
   ones.
   """
   @spec new(keyword()) :: t()

@@ -1,4 +1,4 @@
-defmodule CxLeaderboard.Indexer.Stats do
+defmodule ElixirLeaderboard.Indexer.Stats do
   @moduledoc """
   This module is full of functions that can be used in a custom indexer. Each
   uses a different way of calculating stats. Do you want your ranks to go
