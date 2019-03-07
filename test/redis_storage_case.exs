@@ -159,22 +159,6 @@ defmodule ElixirLeaderboard.RedisStorageCase do
                  Leaderboard.add(board, {-20, :tiebreak, :id1, :oops})
       end
 
-      test "ignores invalid entries when populating", %{board: board} do
-        Leaderboard.clear(board)
-        top =
-          board
-          |> Leaderboard.populate!([
-            {-20, :tiebreak, :id1, :oops},
-            {-30, :tiebreak, :id2}
-          ])
-          |> Leaderboard.top()
-          |> Enum.take(2)
-
-        assert [
-                 {{-30, :tiebreak, :id2}, :id2, {0, {1, nil}}}
-               ] == top
-      end
-
       test "retrieves records via get", %{board: board} do
         Leaderboard.clear(board)
         board =
