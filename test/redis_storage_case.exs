@@ -6,6 +6,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
     quote location: :keep do
       test "keeps entry count", %{board: board} do
         Leaderboard.clear(board)
+
         board =
           board
           |> Leaderboard.populate!([
@@ -18,6 +19,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "returns top entries", %{board: board} do
         Leaderboard.clear(board)
+
         top =
           board
           |> Leaderboard.populate!([
@@ -35,6 +37,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "returns bottom entries", %{board: board} do
         Leaderboard.clear(board)
+
         bottom =
           board
           |> Leaderboard.populate!([
@@ -52,6 +55,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "supports adding individual entries", %{board: board} do
         Leaderboard.clear(board)
+
         top =
           board
           |> Leaderboard.populate!([{-20, :id1}, {-30, :id2}])
@@ -70,6 +74,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "supports adding individual entries when empty", %{board: board} do
         Leaderboard.clear(board)
+
         top =
           board
           |> Leaderboard.add!({-20, :id1})
@@ -83,6 +88,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "supports updating individual entries", %{board: board} do
         Leaderboard.clear(board)
+
         board =
           board
           |> Leaderboard.populate!([
@@ -114,6 +120,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "supports removing individual entries", %{board: board} do
         Leaderboard.clear(board)
+
         top =
           board
           |> Leaderboard.populate!([{-20, :id1}, {-30, :id2}])
@@ -128,6 +135,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "supports atomic add via add_or_update", %{board: board} do
         Leaderboard.clear(board)
+
         top =
           board
           |> Leaderboard.add_or_update!({-10, :id1})
@@ -141,6 +149,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "supports atomic update via add_or_update", %{board: board} do
         Leaderboard.clear(board)
+
         top =
           board
           |> Leaderboard.add!({-10, :id1})
@@ -155,12 +164,14 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "gracefully handles invalid entries", %{board: board} do
         Leaderboard.clear(board)
+
         assert {:error, :bad_entry} =
                  Leaderboard.add(board, {-20, :tiebreak, :id1, :oops})
       end
 
       test "retrieves records via get", %{board: board} do
         Leaderboard.clear(board)
+
         board =
           board
           |> Leaderboard.populate!([{-20, :id1}, {-30, :id2}])
@@ -171,6 +182,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "retrieves next adjacent records", %{board: board} do
         Leaderboard.clear(board)
+
         records =
           board
           |> Leaderboard.populate!([
@@ -189,6 +201,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "retrieves previous adjacent records", %{board: board} do
         Leaderboard.clear(board)
+
         records =
           board
           |> Leaderboard.populate!([
@@ -207,6 +220,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "retrieves an adjacent range of records", %{board: board} do
         Leaderboard.clear(board)
+
         records =
           board
           |> Leaderboard.populate!([
@@ -242,6 +256,7 @@ defmodule ElixirLeaderboard.RedisStorageCase do
 
       test "retrieves an empty list if id is not found", %{board: board} do
         Leaderboard.clear(board)
+
         records =
           board
           |> Leaderboard.populate!([
