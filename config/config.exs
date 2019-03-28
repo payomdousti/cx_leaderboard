@@ -28,3 +28,8 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+
+# Redix
+config :redix,
+  uri: System.get_env("REDIS_LEADERBOARD"),
+  root_key: "exlb"
