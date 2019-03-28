@@ -9,7 +9,7 @@ defmodule ElixirLeaderboard.Application do
     import Supervisor.Spec
 
     children = [
-      {Redix, host: System.get_env("REDIS_LEADERBOARD"), name: :redix}
+      {Redix, System.get_env("REDIS_LEADERBOARD"), name: :redix}
     ]
 
     opts = [strategy: :one_for_one, name: ElixirLeaderboard.Supervisor]
